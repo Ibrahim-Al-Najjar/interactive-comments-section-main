@@ -18,8 +18,14 @@
   .reply-button {
     @apply flex items-center ml-auto gap-3 cursor-pointer text-[#5152a6];
   }
+  .selected-score-button {
+    @apply text-[#5152a6];
+  }
+  .unselected-score-button {
+    @apply text-[#b2b3d9];
+  }
   .score-button {
-    @apply cursor-pointer;
+    @apply cursor-pointer font-black;
   }
 }
 a {
