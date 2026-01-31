@@ -15,6 +15,9 @@
 }
 
 @layer components {
+  .delete-button {
+    @apply flex items-center ml-auto gap-3 cursor-pointer text-[#ed6663];
+  }
   .reply-button {
     @apply flex items-center ml-auto gap-3 cursor-pointer text-[#5152a6];
   }

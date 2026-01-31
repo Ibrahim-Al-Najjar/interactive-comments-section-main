@@ -1,7 +1,11 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import replyIcon from "/icon-reply.svg";
+import deleteIcon from "/icon-delete.svg";
+import DATA from "/src/data.json";
+import { CommentsContext } from "./Comments-Context";
 
 function Comment({
+  id,
   score,
   avatar,
   username,
@@ -12,7 +16,11 @@ function Comment({
 }) {
   const [userVote, setUserVote] = useState(0);
   const [currentScore, setCurrentScore] = useState(score);
-  const [commentReplies, setCommentReplies] = useState(replies);
+
+  const { handleCommentDelete } = useContext(CommentsContext);
+
+  const isCurrentUser = username === DATA.currentUser.username;
+
   function handleUpVote() {
     let delta = 0;
     if (userVote === 1) {
@@ -69,20 +77,38 @@ function Comment({
           <div className="flex gap-5 items-center w-full">
             <img src={avatar} alt={`${username} avatar`} className="w-10" />
             <p className="text-[#4a5258] font-bold">{username}</p>
+            {isCurrentUser && (
+              <p className="text-white px-2 py-1 rounded-sm bg-[#5152a6] font-bold text-xs">
+                you
+              </p>
+            )}
             <p>{date}</p>
-            <button type="button" className="reply-button">
-              <img src={replyIcon} alt="reply icon" />
-              <p className="font-bold">Reply</p>
-            </button>
+            <div className="ml-auto flex gap-8">
+              {isCurrentUser && (
+                <button
+                  type="button"
+                  className="delete-button"
+                  onClick={() => handleCommentDelete(id)}
+                >
+                  <img src={deleteIcon} alt="delete icon" />
+                  <p className="font-bold">Delete</p>
+                </button>
+              )}
+              <button type="button" className="reply-button">
+                <img src={replyIcon} alt="reply icon" />
+                <p className="font-bold">Reply</p>
+              </button>
+            </div>
           </div>
           <p className="text-left">{content}</p>
         </div>
       </div>
       <div>
-        {commentReplies.map((reply) => (
+        {replies.map((reply) => (
           <Comment
             classes="w-[80%] ml-auto mb-5"
             key={reply.id}
+            id={reply.id}
             score={reply.score}
             username={reply.user.username}
             avatar={reply.user.image.png}
