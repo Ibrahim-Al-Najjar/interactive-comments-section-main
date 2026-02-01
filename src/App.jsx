@@ -4,6 +4,7 @@ import Comment from "./components/comment/Comment";
 import DATA from "./data.json";
 import { CommentsContext } from "./components/comment/Comments-Context";
 import Modal from "./components/Modal";
+import InputBox from "./components/inputBox/InputBox";
 
 function App() {
   const dialog = useRef();
@@ -52,6 +53,7 @@ function App() {
           ))}
         </div>
       </CommentsContext.Provider>
+      <InputBox />
     </>
   );
 }

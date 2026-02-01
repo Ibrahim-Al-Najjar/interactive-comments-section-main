@@ -51,6 +51,8 @@ function Comment({
     setCurrentScore((s) => s + delta);
   }
 
+  let replyMessage;
+
   return (
     <>
       <div
@@ -100,22 +102,32 @@ function Comment({
               </button>
             </div>
           </div>
-          <p className="text-left">{content}</p>
+          {content}
         </div>
       </div>
       <div>
-        {replies.map((reply) => (
-          <Comment
-            classes="w-[80%] ml-auto mb-5"
-            key={reply.id}
-            id={reply.id}
-            score={reply.score}
-            username={reply.user.username}
-            avatar={reply.user.image.png}
-            date={reply.createdAt}
-            content={reply.content}
-          />
-        ))}
+        {replies.map(
+          (reply) => (
+            (replyMessage = (
+              <span>
+                <span className="font-bold text-[#5152a6]">{`@${reply.replyingTo} `}</span>
+                <span>{reply.content}</span>
+              </span>
+            )),
+            (
+              <Comment
+                classes="w-[80%] ml-auto mb-5"
+                key={reply.id}
+                id={reply.id}
+                score={reply.score}
+                username={reply.user.username}
+                avatar={reply.user.image.png}
+                date={reply.createdAt}
+                content={replyMessage}
+              />
+            )
+          ),
+        )}
       </div>
     </>
   );
