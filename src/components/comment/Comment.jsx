@@ -4,16 +4,7 @@ import deleteIcon from "/icon-delete.svg";
 import DATA from "/src/data.json";
 import { CommentsContext } from "./Comments-Context";
 
-function Comment({
-  id,
-  score,
-  avatar,
-  username,
-  date,
-  content,
-  replies = [],
-  classes,
-}) {
+function Comment({ id, score, avatar, username, date, content, replies = [] }) {
   const [userVote, setUserVote] = useState(0);
   const [currentScore, setCurrentScore] = useState(score);
 
@@ -56,7 +47,7 @@ function Comment({
   return (
     <>
       <div
-        className={` text-[#65696c] p-10 rounded-xl flex gap-10 bg-white ${classes}`}
+        className={`text-[#65696c] p-10 rounded-xl flex gap-10 bg-white mb-5`}
       >
         <div className=" font-bold text-[#5152a6] bg-[#f5f6f8] h-fit w-12 p-2 rounded-xl">
           <button
@@ -102,33 +93,37 @@ function Comment({
               </button>
             </div>
           </div>
-          {content}
+          <span className="text-left">{content}</span>
         </div>
       </div>
-      <div>
-        {replies.map(
-          (reply) => (
-            (replyMessage = (
-              <span>
-                <span className="font-bold text-[#5152a6]">{`@${reply.replyingTo} `}</span>
-                <span>{reply.content}</span>
-              </span>
-            )),
-            (
-              <Comment
-                classes="w-[80%] ml-auto mb-5"
-                key={reply.id}
-                id={reply.id}
-                score={reply.score}
-                username={reply.user.username}
-                avatar={reply.user.image.png}
-                date={reply.createdAt}
-                content={replyMessage}
-              />
-            )
-          ),
-        )}
-      </div>
+      {replies.length > 0 && (
+        <div className="flex gap-10">
+          <div className="bg-[#7c85805e] rounded-xl w-0.5 ml-auto"></div>
+          <div className="w-[80%]">
+            {replies.map(
+              (reply) => (
+                (replyMessage = (
+                  <>
+                    <span className="font-bold text-[#5152a6]">{`@${reply.replyingTo} `}</span>
+                    <span>{reply.content}</span>
+                  </>
+                )),
+                (
+                  <Comment
+                    key={reply.id}
+                    id={reply.id}
+                    score={reply.score}
+                    username={reply.user.username}
+                    avatar={reply.user.image.png}
+                    date={reply.createdAt}
+                    content={replyMessage}
+                  />
+                )
+              ),
+            )}
+          </div>
+        </div>
+      )}
     </>
   );
 }
