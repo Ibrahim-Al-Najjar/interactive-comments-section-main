@@ -11,13 +11,11 @@ function InputBox() {
           alt="userImg"
         />
         <textarea
-          className="border border-[#eaecf1] px-4 py-2 w-full h-24 rounded-lg focus:outline-none focus:border-[#5152a6] resize-none"
+          className="text-box"
           placeholder="Add a comment..."
         ></textarea>
 
-        <button className="bg-[#5152a6] hover:opacity-70 transition-opacity font-bold text-white px-8 py-3 rounded-xl self-start">
-          SEND
-        </button>
+        <button className="confirm-button">SEND</button>
       </div>
     </div>
   );
