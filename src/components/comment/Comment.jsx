@@ -1,21 +1,27 @@
-import { useContext, useRef, useState } from "react";
-import { CommentsContext } from "./Comments-Context";
+import { Fragment, useRef, useState } from "react";
 import replyIcon from "/icon-reply.svg";
 import editIcon from "/icon-edit.svg";
 import deleteIcon from "/icon-delete.svg";
 import DATA from "/src/data.json";
-import Modal from "../Modal";
+import CommentModal from "./DeleteConfirmModal";
 
-function Comment({ id, score, avatar, username, date, content, replies = [] }) {
+function Comment({
+  score,
+  avatar,
+  username,
+  date,
+  content,
+  replies = [],
+  onCommentDelete,
+}) {
   const [userVote, setUserVote] = useState(0);
   const [currentScore, setCurrentScore] = useState(score);
   const [isEditing, setIsEditing] = useState(false);
   const [commentContent, setCommentContent] = useState(content);
+  const [isOpen, setIsOpen] = useState(false);
 
   const commentRef = useRef();
   const dialog = useRef();
-
-  const { handleCommentDelete } = useContext(CommentsContext);
 
   const isCurrentUser = username === DATA.currentUser.username;
 
@@ -55,31 +61,45 @@ function Comment({ id, score, avatar, username, date, content, replies = [] }) {
 
   function handleConfirmEdit() {
     if (commentRef.current.value === "") {
-      dialog.current.open();
+      setIsOpen(true);
       return;
     }
     setCommentContent(commentRef.current.value);
     handleCommentEdit();
   }
 
+  function renderTextWithMentions(text) {
+    const mentionRegex = /@[a-zA-Z0-9_.]+\b/g;
+
+    const parts = text.split(mentionRegex);
+    const mentions = text.match(mentionRegex);
+
+    return (
+      <span>
+        {parts.map((part, index) => (
+          <Fragment key={index}>
+            {part}
+            {mentions && mentions[index] && (
+              <span className="font-bold text-[#5152a6]">
+                {mentions[index]}
+              </span>
+            )}
+          </Fragment>
+        ))}
+      </span>
+    );
+  }
+
   return (
     <>
-      <Modal ref={dialog}>
-        <p className="font-bold text-[#353d4c] text-xl text-left mt-5">
-          Invalid Input
-        </p>
-        <p className="text-[#878b8e] text-left text-sm mt-3">
-          Empty comment doesn't allowed.
-        </p>
-        <form
-          method="dialog"
-          className="flex gap-5 w-fit ml-auto mt-4 text-right"
-        >
-          <button className="cursor-pointer bg-[#68727e] px-3 py-2 rounded-sm font-bold mt-auto">
-            <p className="text-bold text-sm">Okay</p>
-          </button>
-        </form>
-      </Modal>
+      {isOpen && (
+        <CommentModal
+          title="Invalid Input"
+          description="Empty comment doesn't allowed."
+          type="Empty Comment"
+          onClose={() => setIsOpen(false)}
+        />
+      )}
       <div
         className={`text-[#65696c] p-10 rounded-xl flex gap-10 bg-white mb-5`}
       >
@@ -115,7 +135,7 @@ function Comment({ id, score, avatar, username, date, content, replies = [] }) {
                 <button
                   type="button"
                   className="delete-button"
-                  onClick={() => handleCommentDelete(id)}
+                  onClick={onCommentDelete}
                 >
                   <img src={deleteIcon} alt="delete icon" />
                   <p className="font-bold">Delete</p>
@@ -144,21 +164,12 @@ function Comment({ id, score, avatar, username, date, content, replies = [] }) {
                 {commentContent}
               </textarea>
               <button className="confirm-button" onClick={handleConfirmEdit}>
-                Edit
+                UPDATE
               </button>
             </div>
           ) : (
             <span className="text-left">
-              {commentContent.startsWith("@") ? (
-                <>
-                  <span className="text-[#5152a6] font-bold">
-                    {commentContent.split(" ")[0]}
-                  </span>
-                  {" " + commentContent.split(" ").slice(1).join(" ")}
-                </>
-              ) : (
-                commentContent
-              )}
+              {renderTextWithMentions(commentContent)}
             </span>
           )}
         </div>
