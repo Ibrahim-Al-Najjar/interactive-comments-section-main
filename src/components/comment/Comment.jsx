@@ -6,6 +6,7 @@ import DATA from "/src/data.json";
 import CommentModal from "./DeleteConfirmModal";
 
 function Comment({
+  id,
   score,
   avatar,
   username,
@@ -13,6 +14,7 @@ function Comment({
   content,
   replies = [],
   onCommentDelete,
+  handleCommentDelete,
 }) {
   const [userVote, setUserVote] = useState(0);
   const [currentScore, setCurrentScore] = useState(score);
@@ -21,7 +23,6 @@ function Comment({
   const [isOpen, setIsOpen] = useState(false);
 
   const commentRef = useRef();
-  const dialog = useRef();
 
   const isCurrentUser = username === DATA.currentUser.username;
 
@@ -101,9 +102,9 @@ function Comment({
         />
       )}
       <div
-        className={`text-[#65696c] p-10 rounded-xl flex gap-10 bg-white mb-5`}
+        className={`text-[#65696c] p-10 rounded-xl text-sm flex gap-10 bg-white mb-5`}
       >
-        <div className=" font-bold text-[#5152a6] bg-[#f5f6f8] h-fit w-12 p-2 rounded-xl">
+        <div className=" font-bold text-[#5152a6] bg-[#f5f6f8] h-fit w-10 p-2 rounded-xl">
           <button
             type="button"
             className={`score-button ${userVote === 1 ? "selected-score-button" : "unselected-score-button"}`}
@@ -129,7 +130,7 @@ function Comment({
                 you
               </p>
             )}
-            <p>{date}</p>
+            <p className="text-nowrap">{date}</p>
             <div className="ml-auto flex gap-8">
               {isCurrentUser && (
                 <button
@@ -187,6 +188,7 @@ function Comment({
                 avatar={reply.user.image.png}
                 date={reply.createdAt}
                 content={`@${reply.replyingTo} ${reply.content}`}
+                onCommentDelete={() => handleCommentDelete(reply.id)}
               />
             ))}
           </div>

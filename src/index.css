@@ -6,7 +6,7 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #f5f6fa;
+  background-color: grey;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -19,7 +19,7 @@
     @apply border border-[#eaecf1] px-4 py-2 w-full h-24 rounded-lg focus:outline-none focus:border-[#5152a6] resize-none;
   }
   .confirm-button {
-    @apply bg-[#5152a6] cursor-pointer hover:opacity-70 transition-opacity font-bold text-white px-8 py-3 rounded-xl self-start mt-auto ml-5;
+    @apply bg-[#5152a6] cursor-pointer hover:opacity-70 transition-opacity font-bold text-white px-6 py-3 rounded-xl self-start mt-auto ml-5;
   }
   .delete-button {
     @apply flex items-center ml-auto gap-3 cursor-pointer text-[#ed6663];
