@@ -43,10 +43,9 @@ function CommentsSection({ comments, setComments }) {
             date={comment.createdAt}
             content={comment.content}
             replies={comment.replies || []}
-            onCommentDelete={() => {
-              handleCommentDelete(comment.id);
-            }}
+            onCommentDelete={() => handleCommentDelete(comment.id)}
             handleCommentDelete={handleCommentDelete}
+            handleConfirmDelete={handleConfirmDelete}
           />
         ))}
       </div>

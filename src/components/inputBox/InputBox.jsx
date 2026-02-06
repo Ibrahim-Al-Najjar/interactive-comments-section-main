@@ -39,9 +39,7 @@ function InputBox({ setComments, idCount }) {
         <textarea
           className="text-box"
           placeholder="Add a comment..."
-          onChange={(event) => {
-            setContent(event.target.value);
-          }}
+          onChange={(event) => setContent(event.target.value)}
           value={content}
         ></textarea>
 

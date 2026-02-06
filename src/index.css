@@ -31,6 +31,10 @@
   .delete-button:hover {
     @apply text-[#f38b89];
   }
+
+  .delete-confirm-button {
+    @apply bg-[#ed6663] cursor-pointer hover:opacity-70 transition-opacity font-bold text-white px-6 py-3 rounded-xl self-start mt-auto ml-5;
+  }
   .action-button {
     @apply flex items-center ml-auto gap-3 cursor-pointer text-[#5152a6];
   }

@@ -6,6 +6,7 @@ import DATA from "/src/data.json";
 import CommentModal from "./CommentModal";
 
 function Comment({
+  id,
   score,
   avatar,
   username,
@@ -14,14 +15,13 @@ function Comment({
   replies = [],
   onCommentDelete,
   handleCommentDelete,
+  handleConfirmDelete,
 }) {
   const [userVote, setUserVote] = useState(0);
   const [currentScore, setCurrentScore] = useState(score);
   const [isEditing, setIsEditing] = useState(false);
   const [commentContent, setCommentContent] = useState(content);
   const [isOpen, setIsOpen] = useState(false);
-
-  const commentRef = useRef();
 
   const isCurrentUser = username === DATA.currentUser.username;
 
@@ -55,17 +55,16 @@ function Comment({
     setCurrentScore((s) => s + delta);
   }
 
-  function handleCommentEdit() {
+  function switchEditMode() {
     setIsEditing((prevState) => !prevState);
   }
 
   function handleConfirmEdit() {
-    if (commentRef.current.value === "") {
+    if (commentContent === "") {
       setIsOpen(true);
       return;
     }
-    setCommentContent(commentRef.current.value);
-    handleCommentEdit();
+    switchEditMode();
   }
 
   function renderTextWithMentions(text) {
@@ -94,9 +93,10 @@ function Comment({
     <>
       {isOpen && (
         <CommentModal
-          title="Invalid Input"
-          description="Empty comment doesn't allowed."
-          type="Empty Comment"
+          title="Delete Comment"
+          description="Are you sure you want to delete this comment? This will remove the comment and it can't be undone."
+          type="Delete"
+          onConfirm={() => handleConfirmDelete(id)}
           onClose={() => setIsOpen(false)}
         />
       )}
@@ -145,7 +145,7 @@ function Comment({
                 <button
                   type="button"
                   className="action-button"
-                  onClick={handleCommentEdit}
+                  onClick={switchEditMode}
                 >
                   <img src={editIcon} alt="edit icon" />
                   <p className="font-bold">Edit</p>
@@ -160,11 +160,21 @@ function Comment({
           </div>
           {isEditing ? (
             <div className="flex justify-between">
-              <textarea ref={commentRef} className="text-box">
+              <textarea
+                className="text-box"
+                onChange={(event) => setCommentContent(event.target.value)}
+              >
                 {commentContent}
               </textarea>
-              <button className="confirm-button" onClick={handleConfirmEdit}>
-                UPDATE
+              <button
+                className={
+                  commentContent === ""
+                    ? "delete-confirm-button"
+                    : "confirm-button"
+                }
+                onClick={handleConfirmEdit}
+              >
+                {commentContent === "" ? "DELETE" : "UPDATE"}
               </button>
             </div>
           ) : (
@@ -181,12 +191,15 @@ function Comment({
             {replies.map((reply) => (
               <Comment
                 key={reply.id}
+                id={reply.id}
                 score={reply.score}
                 username={reply.user.username}
                 avatar={reply.user.image.png}
                 date={reply.createdAt}
                 content={`@${reply.replyingTo} ${reply.content}`}
                 onCommentDelete={() => handleCommentDelete(reply.id)}
+                handleCommentDelete={handleCommentDelete}
+                handleConfirmDelete={handleConfirmDelete}
               />
             ))}
           </div>
