@@ -21,6 +21,9 @@
   .confirm-button {
     @apply bg-[#5152a6] cursor-pointer hover:opacity-70 transition-opacity font-bold text-white px-6 py-3 rounded-xl self-start mt-auto ml-5;
   }
+  .disabled-button {
+    @apply bg-[#a3a4d6] cursor-not-allowed;
+  }
   .delete-button {
     @apply flex items-center ml-auto gap-3 cursor-pointer text-[#ed6663];
   }

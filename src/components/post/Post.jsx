@@ -1,10 +1,20 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import DATA from "/src/data.json";
 import CommentsSection from "../comment/CommentsSection";
 import InputBox from "../inputBox/InputBox";
 import postImage from "/project.png";
+
 export default function Post() {
   const [comments, setComments] = useState(DATA.comments);
+
+  const idCount = useMemo(() => {
+    let count = 0;
+    comments.forEach((comment) => {
+      count++;
+      if (Array.isArray(comment.replies)) count += comment.replies.length;
+    });
+    return count;
+  }, [comments]);
 
   return (
     <div className="w-200 bg-gray-50 rounded-xl p-10">
@@ -30,7 +40,7 @@ export default function Post() {
         <img src={postImage} alt="postImage" />
       </div>
       <CommentsSection comments={comments} setComments={setComments} />
-      <InputBox />
+      <InputBox setComments={setComments} idCount={idCount} />
     </div>
   );
 }

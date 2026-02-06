@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Comment from "./Comment";
-import CommentModal from "./DeleteConfirmModal";
+import CommentModal from "./CommentModal";
 
 function CommentsSection({ comments, setComments }) {
   const [commentID, setCommentID] = useState(0);
@@ -20,7 +20,9 @@ function CommentsSection({ comments, setComments }) {
       return updatedComments.map((comment) => {
         return {
           ...comment,
-          replies: comment.replies.filter((reply) => reply.id !== selected_id),
+          replies: (comment.replies || []).filter(
+            (reply) => reply.id !== selected_id,
+          ),
         };
       });
     });

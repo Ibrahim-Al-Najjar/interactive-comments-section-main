@@ -3,10 +3,9 @@ import replyIcon from "/icon-reply.svg";
 import editIcon from "/icon-edit.svg";
 import deleteIcon from "/icon-delete.svg";
 import DATA from "/src/data.json";
-import CommentModal from "./DeleteConfirmModal";
+import CommentModal from "./CommentModal";
 
 function Comment({
-  id,
   score,
   avatar,
   username,
@@ -182,7 +181,6 @@ function Comment({
             {replies.map((reply) => (
               <Comment
                 key={reply.id}
-                id={reply.id}
                 score={reply.score}
                 username={reply.user.username}
                 avatar={reply.user.image.png}
