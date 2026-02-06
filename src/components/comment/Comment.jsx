@@ -103,7 +103,7 @@ function Comment({
         />
       )}
       <div
-        className={`text-[#65696c] p-10 pb-5 rounded-xl text-sm flex gap-10 bg-white mb-5`}
+        className={`text-[#65696c] p-5 rounded-xl text-sm flex gap-10 bg-white mb-5`}
       >
         <div className=" font-bold text-[#5152a6] bg-[#f5f6f8] h-fit w-10 p-2 rounded-xl">
           <button
@@ -125,7 +125,7 @@ function Comment({
         <div className="w-full flex flex-col gap-5">
           <div className="flex gap-5 items-center w-full">
             <img src={avatar} alt={`${username} avatar`} className="w-10" />
-            <p className="text-[#4a5258] font-bold">{username}</p>
+            <p className="text-[#4a5258] font-extrabold">{username}</p>
             {isCurrentUser && (
               <p className="text-white px-2 py-1 rounded-sm bg-[#5152a6] font-bold text-xs">
                 you
@@ -164,7 +164,7 @@ function Comment({
           {isEditing ? (
             <div className="flex justify-between">
               <textarea
-                className="text-box"
+                className="text-box font-bold"
                 onChange={(event) => setCommentContent(event.target.value)}
               >
                 {commentContent}
@@ -182,7 +182,7 @@ function Comment({
             </div>
           ) : (
             <>
-              <span className="text-left">
+              <span className="text-left font-bold">
                 {renderTextWithMentions(commentContent)}
               </span>
               <p className="text-nowrap text-gray-400 text-right text-xs">

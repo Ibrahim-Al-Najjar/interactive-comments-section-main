@@ -17,7 +17,7 @@ export default function Post() {
   }, [comments]);
 
   return (
-    <div className="w-200 bg-gray-50 rounded-xl p-10">
+    <div className="w-200 bg-gray-50 rounded-xl p-5 px-7">
       <div className="border-gray-200 border p-5 rounded-xl mb-10">
         <div className="mb-5 flex gap-3">
           <img
@@ -32,7 +32,7 @@ export default function Post() {
             <p className="text-[#65696C]">1 month ago</p>
           </div>
         </div>
-        <p className="text-[#4a5258] text-left">
+        <p className="text-[#4a5258] text-left font-bold">
           Finally stepping out of my "work-in-progress" bubble. I’ve been
           heads-down on this for a while, and it feels so good to finally share
           it with you all!

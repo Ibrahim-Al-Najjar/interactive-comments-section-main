@@ -32,7 +32,7 @@ function CommentsSection({ comments, setComments }) {
 
   return (
     <>
-      <div className="flex flex-col gap-5">
+      <div className="flex flex-col">
         {comments.map((comment) => (
           <Comment
             key={comment.id}
