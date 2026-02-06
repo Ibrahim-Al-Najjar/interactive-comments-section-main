@@ -22,6 +22,7 @@ function Comment({
   const [isEditing, setIsEditing] = useState(false);
   const [commentContent, setCommentContent] = useState(content);
   const [isOpen, setIsOpen] = useState(false);
+  const [isEdited, setIsEdited] = useState(false);
 
   const isCurrentUser = username === DATA.currentUser.username;
 
@@ -64,6 +65,7 @@ function Comment({
       setIsOpen(true);
       return;
     }
+    setIsEdited(true);
     switchEditMode();
   }
 
@@ -101,7 +103,7 @@ function Comment({
         />
       )}
       <div
-        className={`text-[#65696c] p-10 rounded-xl text-sm flex gap-10 bg-white mb-5`}
+        className={`text-[#65696c] p-10 pb-5 rounded-xl text-sm flex gap-10 bg-white mb-5`}
       >
         <div className=" font-bold text-[#5152a6] bg-[#f5f6f8] h-fit w-10 p-2 rounded-xl">
           <button
@@ -129,7 +131,8 @@ function Comment({
                 you
               </p>
             )}
-            <p className="text-nowrap">{date}</p>
+
+            {isEdited && <p className="text-nowrap">(edited)</p>}
             <div className="ml-auto flex gap-8">
               {isCurrentUser && (
                 <button
@@ -178,9 +181,14 @@ function Comment({
               </button>
             </div>
           ) : (
-            <span className="text-left">
-              {renderTextWithMentions(commentContent)}
-            </span>
+            <>
+              <span className="text-left">
+                {renderTextWithMentions(commentContent)}
+              </span>
+              <p className="text-nowrap text-gray-400 text-right text-xs">
+                {date}
+              </p>
+            </>
           )}
         </div>
       </div>
